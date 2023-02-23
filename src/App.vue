@@ -1,35 +1,31 @@
 <template>
   <div id="app">
     <b-navbar type="dark" variant="dark" class="mb-5">
-      <div class="container">
+      <b-container fluid="md">
         <b-navbar-brand href="#">Construct your Site</b-navbar-brand>
-      </div>
+      </b-container>
     </b-navbar>
-    <div class="container">
-      <simple-section />
+    <b-container fluid="md">
+      <title-section />
       <card-section />
-    </div>
+    </b-container>
   </div>
 </template>
 
 <script>
-import SimpleSection from './components/SimpleSection.vue';
+import TitleSection from './components/TitleSection.vue';
 import CardSection from './components/CardSection.vue';
 
 export default {
   name: 'App',
   components: {
-    SimpleSection,
+    TitleSection,
     CardSection,
   },
 };
 </script>
 
 <style lang="scss">
-body {
-  background-color: #f8f9fa;
-}
-
 #app {
   margin: 0 auto;
   text-align: center;
