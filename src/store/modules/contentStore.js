@@ -35,12 +35,26 @@ const contentStore = {
   mutations: {
     CHANGE_TITLE(state, [type, content]) {
       state.titleContent[type] = content;
-      console.log(type, content);
+    },
+    DELETE_TITLE(state, type) {
+      state.titleContent[type] = '';
+    },
+    ADD_TITLE(state, type) {
+      state.titleContent[type] = `Click and text your new ${type}`
+    },
+    CHANGE_CARDS(state, [type, content]) {
+
     },
   },
   actions: {
     changeTitleContent({ commit }, [type, content]) {
       commit('CHANGE_TITLE', [type, content]);
+    },
+    deleteTitleContent({ commit }, type) {
+      commit('DELETE_TITLE', type);
+    },
+    addTitleContent({ commit }, type) {
+      commit('ADD_TITLE', type);
     },
   },
 };

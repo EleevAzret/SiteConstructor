@@ -37,7 +37,7 @@ export default {
   computed: {
     colsSize() {
       if (this.itemValue.length >= 30) {
-        return 40;
+        return 30;
       } else {
         return this.itemValue.length;
       };

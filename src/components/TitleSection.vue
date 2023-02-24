@@ -58,16 +58,16 @@ export default {
     ...mapGetters('contentStore', ['titleContent']),
   },
   methods: {
-    ...mapActions('contentStore', ['changeTitleContent']),
+    ...mapActions('contentStore', ['changeTitleContent', 'deleteTitleContent', 'addTitleContent']),
     changeModes(value, type) {
       if (typeof value === 'string') this.changeTitleContent([type, value]);
       this.isChange = !this.isChange;
     },
     addComponent(type) {
-      this[type] = `Add your ${type}`;
+      this.addTitleContent(type);
     },
     deleteItem(type) {
-      this[type] = '';
+      this.deleteTitleContent(type);
     },
   },
 };
