@@ -2,8 +2,8 @@
   <div class="card-section row">
     <b-row cols="3">
       <template>
-        <b-col class="mb-4" v-for="(value, key) in cards" :key="key">
-          <card-item :item="value" />
+        <b-col class="mb-4" v-for="(value, key) in cardsContent" :key="key">
+          <card-item :item="value" :cardId="key" />
         </b-col>
       </template>
     </b-row>
@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import CardItem from './CardItem.vue';
 
 export default {
@@ -42,6 +43,9 @@ export default {
       },
     }
   }),
+  computed: {
+    ...mapGetters('contentStore', ['cardsContent']),
+  },
 }
 </script>
 

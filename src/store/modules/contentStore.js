@@ -42,8 +42,14 @@ const contentStore = {
     ADD_TITLE(state, type) {
       state.titleContent[type] = `Click and text your new ${type}`
     },
-    CHANGE_CARDS(state, [type, content]) {
-
+    CHANGE_CARDS(state, [id, type, content]) {
+      state.cardsContent[id][type] = content;
+    },
+    DELETE_CARD_CONTENT(state, [id, type]) {
+      state.cardsContent[id][type] = '';
+    },
+    ADD_CARD_CONTENT(state, [id, type]) {
+      state.cardsContent[id][type] = `Click and text your new ${type}`;
     },
   },
   actions: {
@@ -55,6 +61,15 @@ const contentStore = {
     },
     addTitleContent({ commit }, type) {
       commit('ADD_TITLE', type);
+    },
+    changeCardContent({ commit }, [id, type, content]) {
+      commit('CHANGE_CARDS', [id, type, content]);
+    },
+    deleteCardContent({ commit }, [id, type]) {
+      commit('DELETE_CARD_CONTENT', [id, type]);
+    },
+    addCardContent({ commit }, [id, type]) {
+      commit('ADD_CARD_CONTENT', [id, type]);
     },
   },
 };

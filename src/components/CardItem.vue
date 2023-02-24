@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import AddButton from './AddButton.vue';
 import EditInput from './EditInput.vue';
 
@@ -45,6 +46,10 @@ export default {
       type: Object,
       default: {},
     },
+    cardId: {
+      type: String,
+      required: true,
+    },
   },
   components: {
     EditInput,
@@ -54,15 +59,16 @@ export default {
     isChange: false,
   }),
   methods: {
+    ...mapActions('contentStore', ['changeCardContent', 'deleteCardContent', 'addCardContent']),
     change(value, type) {
-      if (typeof value === 'string') this.item[type] = value;
+      if (typeof value === 'string') this.changeCardContent([this.cardId, type, value]);
       this.isChange = !this.isChange;
     },
     deleteItem(type) {
-      this.item[type] = '';
+      this.deleteCardContent([this.cardId, type]);
     },
     addComponent(type) {
-      this.item[type] = `Add your ${type}`;
+      this.addCardContent([this.cardId, type]);
     },
   },
 };
