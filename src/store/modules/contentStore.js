@@ -1,44 +1,47 @@
 import Vue from "vue";
 
+let titleContent = window.localStorage.getItem('titleContent');
+let cardsContent = window.localStorage.getItem('cardsContent');
+
 const contentStore = {
   namespaced: true,
   state: {
-    titleContent: {
-      mainTitle: 'Add your title',
-      mainContent: 'Add your content',
-    },
-    cardsContent: {
-      1: {
-        title: 'First card title',
-        content: 'First card content',
-        id: 1,
-        color: 'light',
+    titleContent: titleContent ? JSON.parse(titleContent) :
+      {
+        mainTitle: 'Add your title',
+        mainContent: 'Add your content',
       },
-      2: {
-        title: 'Second card title',
-        content: 'Second card content',
-        id: 2,
-        color: 'light',
+    cardsContent: cardsContent ? JSON.parse(cardsContent) : 
+      {
+        1: {
+          title: 'First card title',
+          content: 'First card content',
+          id: 1,
+          color: 'light',
+        },
+        2: {
+          title: 'Second card title',
+          content: 'Second card content',
+          id: 2,
+          color: 'light',
+        },
+        3: {
+          title: 'Third card title',
+          content: 'Third card content',
+          id: 3,
+          color: 'light',
+        },
       },
-      3: {
-        title: 'Third card title',
-        content: 'Third card content',
-        id: 3,
-        color: 'light',
-      },
-      4: {
-        title: 'Third card title',
-        content: 'Third card content',
-        id: 4,
-        color: 'light',
-      },
-    },
   },
   getters: {
     titleContent: ({ titleContent }) => titleContent,
     cardsContent: ({ cardsContent }) => cardsContent,
   },
   mutations: {
+    SAVE_CONTENT(state) {
+      window.localStorage.setItem('titleContent', JSON.stringify(state.titleContent));
+      window.localStorage.setItem('cardsContent', JSON.stringify(state.cardsContent));
+    },
     CHANGE_TITLE(state, [type, content]) {
       state.titleContent[type] = content;
     },
@@ -70,24 +73,31 @@ const contentStore = {
   actions: {
     changeTitleContent({ commit }, [type, content]) {
       commit('CHANGE_TITLE', [type, content]);
+      commit('SAVE_CONTENT');
     },
     deleteTitleContent({ commit }, type) {
       commit('DELETE_TITLE', type);
+      commit('SAVE_CONTENT');
     },
     addTitleContent({ commit }, type) {
       commit('ADD_TITLE', type);
+      commit('SAVE_CONTENT');
     },
     changeCardContent({ commit }, [id, type, content]) {
       commit('CHANGE_CARDS', [id, type, content]);
+      commit('SAVE_CONTENT');
     },
     deleteCardContent({ commit }, [id, type]) {
       commit('DELETE_CARD_CONTENT', [id, type]);
+      commit('SAVE_CONTENT');
     },
     addCardContent({ commit }, [id, type]) {
       commit('ADD_CARD_CONTENT', [id, type]);
+      commit('SAVE_CONTENT');
     },
     changeCardColor({ commit }, [id, color]) {
       commit('CHANGE_CARD_COLOR', [id, color]);
+      commit('SAVE_CONTENT');
     },
     addCard({ commit }) {
       const _id = Math.random() * 10;
@@ -98,9 +108,11 @@ const contentStore = {
           id: _id,
         };
       commit('ADD_CARD', [content, _id]);
+      commit('SAVE_CONTENT');
     },
     deleteCard({ commit }, id) {
       commit('DELETE_CARD', id);
+      commit('SAVE_CONTENT');
     },
   },
 };

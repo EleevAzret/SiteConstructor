@@ -1,10 +1,15 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import contentStore from './modules/contentStore';
+import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const dataState = createPersistedState({
+  paths: ['titleContent', 'cardsContent'],
+});
+
+const store = new Vuex.Store({
   namespaced: true,
   state: {
   },
@@ -17,4 +22,7 @@ export default new Vuex.Store({
   modules: {
     contentStore,
   },
+  plugins: [dataState],
 });
+
+export default store;
