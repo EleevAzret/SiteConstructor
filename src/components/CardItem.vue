@@ -1,7 +1,12 @@
 <template>
   <div class="card-item">
-    <color-picker class="color-change" @changeColor="changeColor" />
-    <b-card class="text-center align-self-stretch" :bg-variant="color" :text-variant="textColor">
+    <div class="card-item__settings">
+      <color-picker class="color-change" @changeColor="changeColor" />
+      <b-button @click="onDeleteCard" variant="danger" size="sm" class="mb-2">
+        <b-icon icon="x-lg" aria-hidden="true" />
+      </b-button>
+    </div>
+    <b-card class="text-center align-self-stretch" :bg-variant="item.color" :text-variant="textColor">
       <template #header>
         <template v-if="item.title">
           <b-card-text
@@ -62,15 +67,20 @@ export default {
   },
   data: () => ({
     isChange: false,
-    color: 'light',
   }),
   computed: {
     textColor() {
-      return this.color === 'light' ? '' : 'white';
+      return this.item.color === 'light' ? '' : 'white';
     },
   },
   methods: {
-    ...mapActions('contentStore', ['changeCardContent', 'deleteCardContent', 'addCardContent']),
+    ...mapActions('contentStore', [
+        'changeCardContent',
+        'deleteCardContent',
+        'addCardContent',
+        'changeCardColor',
+        'deleteCard',
+      ]),
     change(value, type) {
       if (typeof value === 'string') this.changeCardContent([this.cardId, type, value]);
       this.isChange = !this.isChange;
@@ -82,7 +92,10 @@ export default {
       this.addCardContent([this.cardId, type]);
     },
     changeColor(color) {
-      this.color = color;
+      this.changeCardColor([this.cardId, color]);
+    },
+    onDeleteCard() {
+      this.deleteCard(this.cardId);
     },
   },
 };
@@ -90,9 +103,10 @@ export default {
 
 <style lang="scss" scoped>
 .card-item {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
+  &__settings {
+    display: flex;
+    justify-content: space-between;
+  }
 
   &__title {
     font-size: 1.2rem;

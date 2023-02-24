@@ -32,6 +32,6 @@ export default {
 <style lang="scss" scoped>
 .col > .add-button {
   width: 50%;
-  height: 100%;
+  min-height: 5rem;
 }
 </style>

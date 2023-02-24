@@ -106,12 +106,14 @@ export default {
     right: -2rem;
     z-index: 10;
     cursor: pointer;
-    border: .05rem solid #dc3545;
+    border: .05rem solid #fff;
+    fill: #fff;
+    background-color: #dc3545;
     border-radius: 20rem;
+    transition: all .02s;
 
     &:hover {
-      background-color: #dc3545;
-      fill: #fff;
+      transform: scale(1.1);
     }
   }
 
