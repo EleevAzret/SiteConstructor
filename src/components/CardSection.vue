@@ -3,50 +3,39 @@
     <b-row cols="3">
       <template>
         <b-col class="mb-4" v-for="(value, key) in cardsContent" :key="key">
-          <card-item :item="value" :cardId="key" />
+          <card-item :item="value" :cardId="key" :color="color" />
         </b-col>
       </template>
+      <b-col class="mb-4 align-self-center">
+        <add-button @addComponent="addCard" />
+      </b-col>
     </b-row>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import CardItem from './CardItem.vue';
+import AddButton from './AddButton.vue';
+import ColorPicker from './ColorPicker.vue';
 
 export default {
   name: 'CardSection',
   components: {
     CardItem,
+    AddButton,
+    ColorPicker,
   },
   data: () => ({
-    cards: {
-      1: {
-        title: 'First card title',
-        content: 'First card content',
-        id: 1,
-      },
-      2: {
-        title: 'Second card title',
-        content: 'Second card content',
-        id: 2,
-      },
-      3: {
-        title: 'Third card title',
-        content: 'Third card content',
-        id: 3,
-      },
-      4: {
-        title: 'Third card title',
-        content: 'Third card content',
-        id: 4,
-      },
-    }
+    color: 'light',
   }),
   computed: {
     ...mapGetters('contentStore', ['cardsContent']),
   },
-}
+  methods: {
+    ...mapActions('contentStore', ['addCard']),
+  },
+};
 </script>
 
 <style>

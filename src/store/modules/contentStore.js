@@ -1,3 +1,5 @@
+import Vue from "vue";
+
 const contentStore = {
   namespaced: true,
   state: {
@@ -51,6 +53,9 @@ const contentStore = {
     ADD_CARD_CONTENT(state, [id, type]) {
       state.cardsContent[id][type] = `Click and text your new ${type}`;
     },
+    ADD_CARD(state, [content, _id]) {
+      Vue.set(state.cardsContent, _id, content);
+    },
   },
   actions: {
     changeTitleContent({ commit }, [type, content]) {
@@ -70,6 +75,15 @@ const contentStore = {
     },
     addCardContent({ commit }, [id, type]) {
       commit('ADD_CARD_CONTENT', [id, type]);
+    },
+    addCard({ commit }) {
+      const _id = Math.random() * 10;
+      const content = {
+          title: 'Your new card title',
+          content: 'Your new card content',
+          id: _id,
+        };
+      commit('ADD_CARD', [content, _id]);
     },
   },
 };

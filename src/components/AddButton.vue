@@ -1,7 +1,7 @@
 <template>
   <b-button
     variant="outline-success"
-    class="mb-2"
+    class="mb-2 add-button"
     :data-type="itemType"
     @click="addComponent">
     <b-icon icon="plus" />
@@ -14,17 +14,24 @@ export default {
   props: {
     itemType: {
       type: String,
-      default: 'content',
+      default: '',
     },
   },
   methods: {
     addComponent(e) {
-      this.$emit('addComponent', e.currentTarget.dataset.type);
+      if (e.currentTarget.dataset.type) {
+        this.$emit('addComponent', e.currentTarget.dataset.type);
+      } else {
+        this.$emit('addComponent');
+      }
     },
   },
 };
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.col > .add-button {
+  width: 50%;
+  height: 100%;
+}
 </style>
