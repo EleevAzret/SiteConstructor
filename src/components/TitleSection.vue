@@ -1,5 +1,5 @@
 <template>
-  <div class="title-section">
+  <div class="title-section mb-4">
     <template v-if="mainTitle">
       <h2
         class="title-section__title"
