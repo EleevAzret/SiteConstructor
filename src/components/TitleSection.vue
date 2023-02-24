@@ -1,15 +1,15 @@
 <template>
   <div class="title-section mb-4">
-    <template v-if="mainTitle">
+    <template v-if="titleContent.mainTitle">
       <h2
         class="title-section__title"
         v-if="!isChange"
         data-active="changeTitleMode"
         @click="changeModes">
-          {{ mainTitle }}
+          {{ titleContent.mainTitle }}
       </h2>
       <edit-input
-        :item-value="mainTitle"
+        :item-value="titleContent.mainTitle"
         item-type="mainTitle"
         v-if="isChange"
         @changeVisible="changeModes"
@@ -18,16 +18,16 @@
     <template v-else>
       <add-button item-type="mainTitle" @addComponent="addComponent" />
     </template>
-    <template v-if="mainContent">
+    <template v-if="titleContent.mainContent">
       <p
         class="title-section__content"
         v-if="!isChange"
         data-active="changeContentMode"
         @click="changeModes">
-          {{ mainContent }}
+          {{ titleContent.mainContent }}
       </p>
       <edit-input
-        :item-value="mainContent"
+        :item-value="titleContent.mainContent"
         class="mb-3"
         item-type="mainContent"
         v-if="isChange"
@@ -43,6 +43,7 @@
 <script>
 import EditInput from './EditInput.vue';
 import AddButton from './AddButton.vue';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'TitleSection',
@@ -51,13 +52,15 @@ export default {
     AddButton,
   },
   data: () => ({
-    mainTitle: 'Add your title',
-    mainContent: 'Add your content',
     isChange: false,
   }),
+  computed: {
+    ...mapGetters('contentStore', ['titleContent']),
+  },
   methods: {
+    ...mapActions('contentStore', ['changeTitleContent']),
     changeModes(value, type) {
-      if (typeof value === 'string') this[type] = value;
+      if (typeof value === 'string') this.changeTitleContent([type, value]);
       this.isChange = !this.isChange;
     },
     addComponent(type) {
