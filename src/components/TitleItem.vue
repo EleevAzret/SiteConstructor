@@ -95,7 +95,6 @@ export default {
     flex-direction: column;
     align-items: center;
   }
-
   .settings {
     align-self: flex-start;
   }
