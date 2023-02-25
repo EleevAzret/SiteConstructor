@@ -17,20 +17,24 @@
     <b-container fluid="sm">
       <develop-mode v-if="isDevMode" />
       <template v-else>
-        <div class="component" v-for="component in componentsList" :key="component.id">
+        <div class="component mb-5" v-for="component in componentsList" :key="component.id">
           <title-item
             v-if="component.type === 'titleComponent'"
             :key="component.id"
             :titleContent="component"
             :isDevelop="isDevMode"
-            class="develop"
           />
           <card-section
             v-if="component.type === 'cardComponent'"
             :key="component.id"
             :cardComponent="component"
             :isDevelop="isDevMode"
-            class="develop"
+          />
+          <movies-list
+            v-if="component.type === 'movies'"
+            :key="component.id"
+            :moviesList="component"
+            :isDevelop="isDevMode"
           />
         </div>
       </template>
@@ -41,6 +45,7 @@
 <script>
 import CardSection from './components/CardSection.vue';
 import TitleItem from './components/TitleItem.vue';
+import MoviesList from './components/MoviesList.vue';
 import DevelopMode from './components/DevelopMode.vue';
 import { mapGetters } from 'vuex';
 
@@ -49,6 +54,7 @@ export default {
   components: {
     CardSection,
     TitleItem,
+    MoviesList,
     DevelopMode,
   },
   data: () => ({
@@ -61,6 +67,7 @@ export default {
   computed: {
     ...mapGetters('contentStore', ['allComponents']),
     componentsList() {
+      console.log(this.allComponents);
       return this.allComponents;
     },
   },

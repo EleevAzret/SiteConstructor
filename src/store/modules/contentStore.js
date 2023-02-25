@@ -1,6 +1,25 @@
 import Vue from "vue";
+import axios from "@/plugins/axios";
+import topMovies from "../mocks/topMovies";
 
 let components = window.localStorage.getItem('components');
+
+function serializeMovies(movies) {
+  const result = {};
+  const _id = Math.random() * 10;
+
+  const list = movies.reduce((acc, movie) => {
+    movie.poster_path = `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+    acc[movie.id] = movie;
+    return acc;
+  }, {});
+
+  result.type = 'movies';
+  result.id = _id;
+  result.movies = list;
+
+  return result;
+};
 
 const contentStore = {
   namespaced: true,
@@ -140,7 +159,6 @@ const contentStore = {
     },
     SORT_COMPONENTS(state, keys) {
       Vue.set(state, 'components', keys);
-      console.log(state);
     },
   },
   actions: {
@@ -218,6 +236,29 @@ const contentStore = {
       });
       commit('SORT_COMPONENTS', filtered);
       commit('SAVE_CONTENT');
+    },
+    initMovieStore: {
+      handler({ dispatch }) {
+        dispatch("fetchMovies");
+      },
+      root: true,
+    },
+    async fetchMovies({ commit }) {
+      try {
+        const response = await axios.get(
+          `${topMovies}`
+        );
+
+        let min = Math.floor(Math.random() * 10);
+
+        const movies = response.results.splice(min, 5);
+        const serialize = serializeMovies(movies);
+
+        commit('ADD_COMPONENT', serialize);
+        commit('SAVE_CONTENT');
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 };

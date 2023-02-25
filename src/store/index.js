@@ -19,4 +19,6 @@ const store = new Vuex.Store({
   },
 });
 
+if (!window.localStorage.getItem('components')) store.dispatch("initMovieStore");
+
 export default store;

@@ -17,11 +17,18 @@
           :cardComponent="component"
           class="develop"
         />
+        <movies-list
+          v-if="component.type === 'movies'"
+          :key="component.id"
+          :moviesList="component"
+          class="develop"
+        />
       </div>
     </draggable>
     <div class="add-buttons">
       <add-button @addComponent="newTitleComponent" componentType="Title" />
       <add-button @addComponent="newCardComponent" componentType="Cards" />
+      <add-button @addComponent="newMoviesComponent" componentType="Movies" />
     </div>
   </div>
 </template>
@@ -30,6 +37,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import TitleItem from './TitleItem.vue';
 import CardSection from './CardSection.vue';
+import MoviesList from './MoviesList.vue';
 import draggable from 'vuedraggable';
 import AddButton from './AddButton.vue';
 
@@ -40,6 +48,7 @@ export default {
     draggable,
     AddButton,
     CardSection,
+    MoviesList,
   },
   computed: {
     ...mapGetters('contentStore', ['titleComponents', 'cardsComponents', 'allComponents']),
@@ -57,12 +66,15 @@ export default {
     },
   },
   methods: {
-    ...mapActions('contentStore', ['addTitleComponent', 'addCardComponent', 'dragComponents']),
+    ...mapActions('contentStore', ['addTitleComponent', 'addCardComponent', 'dragComponents', 'fetchMovies']),
     newTitleComponent() {
       this.addTitleComponent();
     },
     newCardComponent() {
       this.addCardComponent();
+    },
+    newMoviesComponent() {
+      this.fetchMovies();
     },
   },
 };
