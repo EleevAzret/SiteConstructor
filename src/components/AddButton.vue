@@ -5,6 +5,7 @@
     :data-type="itemType"
     @click="addComponent">
     <b-icon icon="plus" />
+    {{ componentType }}
   </b-button>
 </template>
 
@@ -13,6 +14,10 @@ export default {
   name: 'AddButton',
   props: {
     itemType: {
+      type: String,
+      default: '',
+    },
+    componentType: {
       type: String,
       default: '',
     },

@@ -1,7 +1,7 @@
 <template>
   <div class="card-item">
-    <div class="card-item__settings">
-      <color-picker class="color-change" @changeColor="changeColor" />
+    <div class="card-item__settings" v-if="isDevelop">
+      <color-picker class="color-change" :currentColor="item.color" @changeColor="changeColor" />
       <b-button @click="onDeleteCard" variant="danger" size="sm" class="mb-2">
         <b-icon icon="x-lg" aria-hidden="true" />
       </b-button>
@@ -16,13 +16,13 @@
               {{ item.title }}
             </b-card-text>
           <edit-input
-          :itemValue="item.title"
-          itemType="title"
-          v-if="isChange"
-          @deleteField="deleteItem"
-          @changeVisible="change" />
+            :itemValue="item.title"
+            itemType="title"
+            v-if="isChange"
+            @deleteField="deleteItem"
+            @changeVisible="change" />
         </template>
-        <template v-else>
+        <template v-if="!item.title && isDevelop">
           <add-button itemType="title" @addComponent="addComponent" />
         </template>
       </template>
@@ -35,7 +35,7 @@
         @deleteField="deleteItem"
         @changeVisible="change" />
       </template>
-      <template v-else>
+      <template v-if="!item.content && isDevelop">
         <add-button itemType="content" @addComponent="addComponent" />
       </template>
     </b-card>
@@ -55,9 +55,12 @@ export default {
       type: Object,
       default: {},
     },
-    cardId: {
-      type: String,
+    sectionId: {
       required: true,
+    },
+    isDevelop: {
+      type: Boolean,
+      default: true,
     },
   },
   components: {
@@ -82,20 +85,21 @@ export default {
         'deleteCard',
       ]),
     change(value, type) {
-      if (typeof value === 'string') this.changeCardContent([this.cardId, type, value]);
+      if (!this.isDevelop) return;
+      if (typeof value === 'string') this.changeCardContent([this.sectionId, this.item.id, type, value]);
       this.isChange = !this.isChange;
     },
     deleteItem(type) {
-      this.deleteCardContent([this.cardId, type]);
+      this.deleteCardContent([this.sectionId, this.item.id, type]);
     },
     addComponent(type) {
-      this.addCardContent([this.cardId, type]);
+      this.addCardContent([this.sectionId, this.item.id, type]);
     },
     changeColor(color) {
-      this.changeCardColor([this.cardId, color]);
+      this.changeCardColor([this.sectionId, this.item.id, color]);
     },
     onDeleteCard() {
-      this.deleteCard(this.cardId);
+      this.deleteCard([this.sectionId, this.item.id]);
     },
   },
 };

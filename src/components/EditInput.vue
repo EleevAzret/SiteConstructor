@@ -77,6 +77,7 @@ export default {
   margin: 0 auto;
 
   & > textarea {
+    background: none;
     border: none;
     outline: none;
     text-align: center;
@@ -84,12 +85,7 @@ export default {
     resize: none;
   }
 
-  & > textarea.content {
-    background-color: #f8f9fa;
-  }
-
   & > textarea.title {
-    background-color: #f0f1f2;
     font-size: 1.2rem;
     font-weight: 500;
   }
@@ -97,7 +93,6 @@ export default {
   & > textarea.mainTitle {
     font-size: 2rem;
     font-weight: 500;
-    background-color: #fff;
   }
 
   & > .delete {

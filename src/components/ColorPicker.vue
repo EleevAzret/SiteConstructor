@@ -22,6 +22,12 @@
 <script>
 export default {
   name: 'ColorPicker',
+  props: {
+    currentColor: {
+      type: String,
+      default: 'light',
+    },
+  },
   data: () => ({
     colors: {
       'primary': {
@@ -37,7 +43,7 @@ export default {
         icon: 'blank',
       },
       'danger': {
-        name: 'red',
+        name: 'Red',
         icon: 'blank',
       },
       'info': {
@@ -54,6 +60,10 @@ export default {
       },
     },
   }),
+  mounted() {
+    this.refreshIcons();
+    this.setCheck();
+  },
   methods: {
     selectColor(e) {
       let color = e.currentTarget.dataset.type;
@@ -64,6 +74,11 @@ export default {
     refreshIcons() {
       for (let color in this.colors) {
         this.colors[color].icon = 'blank';
+      };
+    },
+    setCheck() {
+      for (let color in this.colors) {
+        if (color === this.currentColor) this.colors[color].icon = 'check';
       };
     },
   },

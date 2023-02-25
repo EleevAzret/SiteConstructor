@@ -1,117 +1,222 @@
 import Vue from "vue";
 
-let titleContent = window.localStorage.getItem('titleContent');
-let cardsContent = window.localStorage.getItem('cardsContent');
+let components = window.localStorage.getItem('components');
 
 const contentStore = {
   namespaced: true,
   state: {
-    titleContent: titleContent ? JSON.parse(titleContent) :
+    components: components ? JSON.parse(components) : [
       {
         mainTitle: 'Add your title',
         mainContent: 'Add your content',
+        id: 1,
+        type: 'titleComponent',
       },
-    cardsContent: cardsContent ? JSON.parse(cardsContent) : 
       {
-        1: {
-          title: 'First card title',
-          content: 'First card content',
-          id: 1,
-          color: 'light',
-        },
-        2: {
-          title: 'Second card title',
-          content: 'Second card content',
-          id: 2,
-          color: 'light',
-        },
-        3: {
-          title: 'Third card title',
-          content: 'Third card content',
-          id: 3,
-          color: 'light',
+        mainTitle: 'Add your title',
+        mainContent: 'Add your content',
+        id: 2,
+        type: 'titleComponent',
+      },
+      {
+        id: 3,
+        type: 'cardComponent',
+        cards: {
+          31: {
+            title: 'First card title',
+            content: 'First card content',
+            id: 31,
+            color: 'light',
+          },
+          32: {
+            title: 'Second card title',
+            content: 'Second card content',
+            id: 32,
+            color: 'light',
+          },
+          33: {
+            title: 'Third card title',
+            content: 'Third card content',
+            id: 33,
+            color: 'light',
+          },
         },
       },
+    ],
   },
   getters: {
-    titleContent: ({ titleContent }) => titleContent,
-    cardsContent: ({ cardsContent }) => cardsContent,
+    components: ({ components }) => components,
+    titleComponents: ({ components }) => {
+      return components.filter(value => value.type == 'titleComponent').reduce((acc, value) => {
+        acc[value.id] = value;
+        return acc;
+      }, {});;
+    },
+    cardsComponents: ({ components }) => {
+      return components.filter(value => value.type == 'cardComponent').reduce((acc, value) => {
+        acc[value.id] = value;
+        return acc;
+      }, {});
+    },
+    allComponents: ({ components }) => components,
   },
   mutations: {
-    SAVE_CONTENT(state) {
-      window.localStorage.setItem('titleContent', JSON.stringify(state.titleContent));
-      window.localStorage.setItem('cardsContent', JSON.stringify(state.cardsContent));
+    SAVE_CONTENT({ components }) {
+      window.localStorage.setItem('components', JSON.stringify(components));
     },
-    CHANGE_TITLE(state, [type, content]) {
-      state.titleContent[type] = content;
+    CHANGE_TITLE({ components }, [id, type, content]) {
+      components.forEach(component => {
+        if (component.id == id) {
+          Vue.set(component, type, content);
+        };
+      });
     },
-    DELETE_TITLE(state, type) {
-      state.titleContent[type] = '';
+    DELETE_TITLE({ components }, [id, type]) {
+      components.forEach(component => {
+        if (component.id == id) {
+          Vue.set(component, type, '');
+        };
+      });
     },
-    ADD_TITLE(state, type) {
-      state.titleContent[type] = `Click and text your new ${type}`
+    ADD_TITLE({ components }, [id, type]) {
+      components.forEach(component => {
+        if (component.id == id) {
+          Vue.set(component, type, `Click and text your new ${type}`);
+        };
+      });
     },
-    CHANGE_CARDS(state, [id, type, content]) {
-      state.cardsContent[id][type] = content;
+    ADD_COMPONENT({ components }, value) {
+      Vue.set(components, components.length, value);
     },
-    DELETE_CARD_CONTENT(state, [id, type]) {
-      state.cardsContent[id][type] = '';
+    CHANGE_CARDS({ components }, [sectionId, cardId, type, content]) {
+      components.forEach(component => {
+        if (component.id == sectionId) {
+          Vue.set(component.cards[cardId], type, content);
+        };
+      });
     },
-    ADD_CARD_CONTENT(state, [id, type]) {
-      state.cardsContent[id][type] = `Click and text your new ${type}`;
+    DELETE_CARD_CONTENT({ components }, [sectionId, cardId, type]) {
+      components.forEach(component => {
+        if (component.id == sectionId) {
+          Vue.set(component.cards[cardId], type, '');
+        };
+      });
     },
-    CHANGE_CARD_COLOR(state, [id, color]) {
-      state.cardsContent[id].color = color;
+    ADD_CARD_CONTENT({ components }, [sectionId, cardId, type]) {
+      const msg = `Click and text your new ${type}`;
+      components.forEach(component => {
+        if (component.id == sectionId) {
+          Vue.set(component.cards[cardId], type, msg);
+        };
+      });
     },
-    ADD_CARD(state, [content, _id]) {
-      Vue.set(state.cardsContent, _id, content);
+    CHANGE_CARD_COLOR({ components }, [sectionId, cardId, color]) {
+      components.forEach(component => {
+        if (component.id == sectionId) {
+          Vue.set(component.cards[cardId], 'color', color);
+        };
+      });
     },
-    DELETE_CARD(state, id) {
-      Vue.delete(state.cardsContent, id);
+    ADD_CARD({ components }, [content, _id, key]) {
+      components.forEach(component => {
+        if (component.id == key) {
+          Vue.set(component.cards, _id, content);
+        };
+      });
+    },
+    DELETE_CARD({ components }, [sectionId, cardId]) {
+      components.forEach(component => {
+        if (component.id == sectionId) {
+          Vue.delete(component.cards, cardId);
+        };
+      });
+    },
+    DELETE_COMPONENT({ components }, id) {
+      components.forEach((component, index) => {
+        if (component.id == id) {
+          Vue.delete(components, index);
+        };
+      });
+    },
+    SORT_COMPONENTS(state, keys) {
+      Vue.set(state, 'components', keys);
+      console.log(state);
     },
   },
   actions: {
-    changeTitleContent({ commit }, [type, content]) {
-      commit('CHANGE_TITLE', [type, content]);
+    changeTitleContent({ commit }, [id, type, content]) {
+      commit('CHANGE_TITLE', [id, type, content]);
       commit('SAVE_CONTENT');
     },
-    deleteTitleContent({ commit }, type) {
-      commit('DELETE_TITLE', type);
+    deleteTitleContent({ commit }, [id, type]) {
+      commit('DELETE_TITLE', [id, type]);
       commit('SAVE_CONTENT');
     },
-    addTitleContent({ commit }, type) {
-      commit('ADD_TITLE', type);
+    addTitleContent({ commit }, [id, type]) {
+      commit('ADD_TITLE', [id, type]);
       commit('SAVE_CONTENT');
     },
-    changeCardContent({ commit }, [id, type, content]) {
-      commit('CHANGE_CARDS', [id, type, content]);
+    changeCardContent({ commit }, [sectionId, cardId, type, content]) {
+      commit('CHANGE_CARDS', [sectionId, cardId, type, content]);
       commit('SAVE_CONTENT');
     },
-    deleteCardContent({ commit }, [id, type]) {
-      commit('DELETE_CARD_CONTENT', [id, type]);
+    deleteCardContent({ commit }, [sectionId, cardId, type]) {
+      commit('DELETE_CARD_CONTENT', [sectionId, cardId, type]);
       commit('SAVE_CONTENT');
     },
-    addCardContent({ commit }, [id, type]) {
-      commit('ADD_CARD_CONTENT', [id, type]);
+    addCardContent({ commit }, [sectionId, cardId, type]) {
+      commit('ADD_CARD_CONTENT', [sectionId, cardId, type]);
       commit('SAVE_CONTENT');
     },
-    changeCardColor({ commit }, [id, color]) {
-      commit('CHANGE_CARD_COLOR', [id, color]);
+    changeCardColor({ commit }, [sectionId, cardId, color]) {
+      commit('CHANGE_CARD_COLOR', [sectionId, cardId, color]);
       commit('SAVE_CONTENT');
     },
-    addCard({ commit }) {
+    addTitleComponent({ commit }) {
       const _id = Math.random() * 10;
       const content = {
-          title: 'Your new card title',
-          content: 'Your new card content',
-          color: 'light',
-          id: _id,
-        };
-      commit('ADD_CARD', [content, _id]);
+        mainTitle: 'Add your title',
+        mainContent: 'Add your content',
+        id: _id,
+        type: 'titleComponent',
+      };
+      commit('ADD_COMPONENT', content);
+      commit('SAVE_CONTENT');
+    },
+    addCard({ commit }, key) {
+      const _id = Math.random() * 10;
+      const content = {
+        title: 'Your new card title',
+        content: 'Your new card content',
+        color: 'light',
+        id: _id,
+      };
+      commit('ADD_CARD', [content, _id, key]);
       commit('SAVE_CONTENT');
     },
     deleteCard({ commit }, id) {
       commit('DELETE_CARD', id);
+      commit('SAVE_CONTENT');
+    },
+    addCardComponent({ commit }) {
+      const _id = Math.random() * 10;
+      const content = {
+        id: _id,
+        type: 'cardComponent',
+        cards: {},
+      };
+      commit('ADD_COMPONENT', content);
+      commit('SAVE_CONTENT');
+    },
+    deleteComponent({ commit }, id) {
+      commit('DELETE_COMPONENT', id);
+      commit('SAVE_CONTENT');
+    },
+    dragComponents({ commit }, keys) {
+      let filtered = keys.filter(key => {
+        if (key) return key;
+      });
+      commit('SORT_COMPONENTS', filtered);
       commit('SAVE_CONTENT');
     },
   },
