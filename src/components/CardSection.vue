@@ -16,7 +16,7 @@
         v-for="card in cardComponent.cards"
         :key="card.id" :isDevelop="isDevelop"
         :sectionId="cardComponent.id"
-        :item="card" 
+        :item="card"
       />
       <b-col v-if="isDevelop" class="mb-4 align-self-center" key="add-btn">
         <add-button @addComponent="addNewCard" />

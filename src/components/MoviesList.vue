@@ -33,13 +33,17 @@
       cols-sm="2"
       cols-md="3"
       cols-lg="5"
+      v-if="searchIsNotEmpty"
     >
-        <movie-item
-          v-for="movie in correctMovies"
-          :key="movie.id"
-          :movie="movie"
-        />
+      <movie-item
+        v-for="movie in correctMovies"
+        :key="movie.id"
+        :movie="movie"
+      />
     </b-row>
+    <div class="empty" v-else>
+      <img :src="emptySrc" alt="empty">
+    </div>
   </div>
 </template>
 
@@ -64,11 +68,18 @@ export default {
   },
   data: () => ({
     keywords: '',
+    emptySrc: 'https://img.freepik.com/free-vector/400-error-bad-request-concept-illustration_114360-1933.jpg?w=1380&t=st=1677606834~exp=1677607434~hmac=a9b313ff8671f6fe742e7a34f8c749f0486b6c89a339a0360b0684f06f598271',
   }),
   computed: {
     correctMovies() {
       if (this.moviesList.searchMovies) return this.moviesList.searchMovies.movies;
       return this.moviesList.movies;
+    },
+    searchIsNotEmpty() {
+      if (this.moviesList.searchMovies) {
+        return Boolean(Object.keys(this.moviesList.searchMovies.movies).length)
+      }
+      return true;
     },
   },
   methods: {
@@ -94,5 +105,12 @@ export default {
 .search-field {
   display: flex;
   gap: .2rem;
+}
+
+.empty {
+  & > img {
+    width: 20rem;
+    height: 20rem;
+  }
 }
 </style>
