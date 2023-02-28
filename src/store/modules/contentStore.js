@@ -183,6 +183,13 @@ const contentStore = {
         };
       });
     },
+    DELETE_SEARCHING_LIST({ components }, moviesListId) {
+      components.forEach((component) => {
+        if (component.id == moviesListId) {
+          Vue.delete(component, 'searchMovies');
+        };
+      });
+    },
   },
   actions: {
     changeTitleContent({ commit }, [id, type, content]) {
@@ -258,6 +265,10 @@ const contentStore = {
         if (key) return key;
       });
       commit('SORT_COMPONENTS', filtered);
+      commit('SAVE_CONTENT');
+    },
+    deleteMoviesSearch({ commit }, id) {
+      commit('DELETE_SEARCHING_LIST', id);
       commit('SAVE_CONTENT');
     },
     initMovieStore: {

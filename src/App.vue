@@ -78,6 +78,7 @@ export default {
 #app {
   margin: 0 auto;
   text-align: center;
+  padding-bottom: 2rem;
 }
 
 #btn-radios-2_BV_option_0, #btn-radios-2_BV_option_1 {

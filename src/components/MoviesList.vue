@@ -11,9 +11,17 @@
         <b-icon icon="x-lg" aria-hidden="true" />
       </b-button>
     </div>
-    <div class="search-wrap mb-3">
+    <div class="search-wrap mb-4">
       <b-form class="search-field" @submit.stop.prevent="onSearchSubmit">
-        <b-form-input v-model="keywords" aria-label="Input" class="mr-1"></b-form-input>
+        <b-button variant="outline" @click="onReturn">
+          <b-icon icon="arrow-return-left" variant="warning" />
+        </b-button>
+        <b-form-input
+          v-model="keywords"
+          aria-label="Input"
+          class="mr-1"
+          placeholder="Search"
+        />
         <b-button type="submit" variant="outline-info">
           <b-icon icon="search" />
         </b-button>
@@ -57,12 +65,15 @@ export default {
     },
   },
   methods: {
-    ...mapActions('contentStore', ['deleteComponent', 'searchMovies']),
+    ...mapActions('contentStore', ['deleteComponent', 'searchMovies', 'deleteMoviesSearch']),
     deleteItem() {
       this.deleteComponent(this.moviesList.id);
     },
     onSearchSubmit(e) {
       if (this.keywords) this.searchMovies([this.keywords, this.moviesList.id]);
+    },
+    onReturn() {
+      if (this.moviesList.searchMovies) this.deleteMoviesSearch(this.moviesList.id);
     },
   },
 };
