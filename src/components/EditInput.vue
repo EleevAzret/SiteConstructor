@@ -38,17 +38,15 @@ export default {
     colsSize() {
       if (this.itemValue.length >= 30) {
         return 30;
-      } else {
-        return this.itemValue.length;
-      };
+      }
+      return this.itemValue.length;
     },
     rowsSize() {
       if (this.itemValue.length >= 30) {
         return Math.ceil(this.itemValue.length / 30);
-      } else {
-        return 1;
-      };
-    }
+      }
+      return 1;
+    },
   },
   methods: {
     onBlured(e) {
@@ -58,15 +56,15 @@ export default {
       this.$emit('deleteField', e.currentTarget.dataset.type);
     },
     autoResize(e) {
-      if(e.target.value.length >= 30) {
+      if (e.target.value.length >= 30) {
         e.target.cols = 30;
         e.target.rows = Math.ceil(e.target.value.length / 30);
       } else {
         e.target.cols = e.target.value.length;
-      };
+      }
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

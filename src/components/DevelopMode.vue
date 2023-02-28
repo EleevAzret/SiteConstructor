@@ -1,29 +1,31 @@
 <template>
   <div class="dev-mode">
-    <draggable v-model="componentsList" :animation="300" handle=".handle">
-      <div class="component" v-for="component in componentsList" :key="component.id">
-        <div class="handle">
-          <b-icon icon="list" scale="1.2" />
+    <draggable v-model="componentsList" :animation="300" handle=".handle" key="drag">
+      <transition-group name="fade">
+        <div class="component" v-for="component in componentsList" :key="component.id">
+          <div class="handle" key="icon">
+            <b-icon icon="list" scale="1.2" />
+          </div>
+          <title-item
+            v-if="component.type === 'titleComponent'"
+            :key="component.id"
+            :titleContent="component"
+            class="develop"
+          />
+          <card-section
+            v-if="component.type === 'cardComponent'"
+            :key="component.id"
+            :cardComponent="component"
+            class="develop"
+          />
+          <movies-list
+            v-if="component.type === 'movies'"
+            :key="component.id"
+            :moviesList="component"
+            class="develop"
+          />
         </div>
-        <title-item
-          v-if="component.type === 'titleComponent'"
-          :key="component.id"
-          :titleContent="component"
-          class="develop"
-        />
-        <card-section
-          v-if="component.type === 'cardComponent'"
-          :key="component.id"
-          :cardComponent="component"
-          class="develop"
-        />
-        <movies-list
-          v-if="component.type === 'movies'"
-          :key="component.id"
-          :moviesList="component"
-          class="develop"
-        />
-      </div>
+      </transition-group>
     </draggable>
     <div class="add-buttons">
       <add-button @addComponent="newTitleComponent" componentType="Title" />
@@ -35,10 +37,10 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import draggable from 'vuedraggable';
 import TitleItem from './TitleItem.vue';
 import CardSection from './CardSection.vue';
 import MoviesList from './MoviesList.vue';
-import draggable from 'vuedraggable';
 import AddButton from './AddButton.vue';
 
 export default {
@@ -98,8 +100,20 @@ export default {
   }
 
   .add-buttons {
+    position: relative;
     display: flex;
     justify-content: center;
     gap: .5rem;
+  }
+
+  .fade-enter-active, .fade-leave-active, .fade-move {
+    transition: all .5s ease-out;
+  }
+
+  .fade-enter, .fade-leave-to {
+    transform: scale(0);
+    z-index: -10;
+    opacity: 0;
+    height: 0;
   }
 </style>

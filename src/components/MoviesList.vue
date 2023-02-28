@@ -27,14 +27,14 @@
         </b-button>
       </b-form>
     </div>
-    <b-row 
+    <b-row
       align-h="center"
       cols="2"
       cols-sm="2"
       cols-md="3"
       cols-lg="5"
     >
-        <movie-item 
+        <movie-item
           v-for="movie in correctMovies"
           :key="movie.id"
           :movie="movie"
@@ -44,8 +44,8 @@
 </template>
 
 <script>
-import MovieItem from './MovieItem.vue';
 import { mapActions } from 'vuex';
+import MovieItem from './MovieItem.vue';
 
 export default {
   name: 'MoviesList',
@@ -67,7 +67,8 @@ export default {
   }),
   computed: {
     correctMovies() {
-      return this.moviesList.searchMovies ? this.moviesList.searchMovies.movies : this.moviesList.movies;
+      if (this.moviesList.searchMovies) return this.moviesList.searchMovies.movies;
+      return this.moviesList.movies;
     },
   },
   methods: {
@@ -75,7 +76,7 @@ export default {
     deleteItem() {
       this.deleteComponent(this.moviesList.id);
     },
-    onSearchSubmit(e) {
+    onSearchSubmit() {
       if (this.keywords) this.searchMovies([this.keywords, this.moviesList.id]);
     },
     onReturn() {

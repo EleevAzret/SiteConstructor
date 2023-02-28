@@ -43,11 +43,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import CardSection from './components/CardSection.vue';
 import TitleItem from './components/TitleItem.vue';
 import MoviesList from './components/MoviesList.vue';
 import DevelopMode from './components/DevelopMode.vue';
-import { mapGetters } from 'vuex';
 
 export default {
   name: 'App',

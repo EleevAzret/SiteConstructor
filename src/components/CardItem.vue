@@ -1,5 +1,5 @@
 <template>
-  <div class="card-item">
+  <b-col class="card-item mb-4">
     <div class="card-item__settings" v-if="isDevelop">
       <color-picker class="color-change" :currentColor="item.color" @changeColor="changeColor" />
       <b-button
@@ -11,7 +11,11 @@
         <b-icon icon="x-lg" aria-hidden="true" />
       </b-button>
     </div>
-    <b-card class="text-center align-self-stretch" :bg-variant="item.color" :text-variant="textColor">
+    <b-card
+      class="text-center align-self-stretch"
+      :bg-variant="item.color"
+      :text-variant="textColor"
+    >
       <template #header>
         <template v-if="item.title">
           <b-card-text
@@ -44,7 +48,7 @@
         <add-button :isFill="true" itemType="content" @addComponent="addComponent" />
       </template>
     </b-card>
-  </div>
+  </b-col>
 </template>
 
 <script>
@@ -58,7 +62,7 @@ export default {
   props: {
     item: {
       type: Object,
-      default: {},
+      default: () => ({}),
     },
     sectionId: {
       required: true,
@@ -83,12 +87,12 @@ export default {
   },
   methods: {
     ...mapActions('contentStore', [
-        'changeCardContent',
-        'deleteCardContent',
-        'addCardContent',
-        'changeCardColor',
-        'deleteCard',
-      ]),
+      'changeCardContent',
+      'deleteCardContent',
+      'addCardContent',
+      'changeCardColor',
+      'deleteCard',
+    ]),
     change(value, type) {
       if (!this.isDevelop) return;
       if (typeof value === 'string') this.changeCardContent([this.sectionId, this.item.id, type, value]);

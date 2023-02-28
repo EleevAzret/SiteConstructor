@@ -11,19 +11,17 @@
         <b-icon icon="x-lg" aria-hidden="true" />
       </b-button>
     </div>
-    <b-row cols="1"
-      cols-sm="2"
-      cols-md="3"
-    >
-      <template>
-        <b-col class="mb-4" v-for="card in cardComponent.cards" :key="card.id">
-          <card-item :isDevelop="isDevelop" :sectionId="cardComponent.id" :item="card" />
-        </b-col>
-      </template>
-      <b-col v-if="isDevelop" class="mb-4 align-self-center">
+    <transition-group tag="div" class="row row-cols-2 row-cols-md-3" name="slip">
+      <card-item
+        v-for="card in cardComponent.cards"
+        :key="card.id" :isDevelop="isDevelop"
+        :sectionId="cardComponent.id"
+        :item="card" 
+      />
+      <b-col v-if="isDevelop" class="mb-4 align-self-center" key="add-btn">
         <add-button @addComponent="addNewCard" />
       </b-col>
-    </b-row>
+    </transition-group>
   </div>
 </template>
 
@@ -65,5 +63,17 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+  }
+
+  .slip-enter-active, .slip-leave-active, .slip-move {
+    transition: all .5s cubic-bezier(.47,.14,.53,.95);
+  }
+
+  .slip-leave-active {
+    position: absolute;
+  }
+
+  .slip-enter, .slip-leave-to {
+    transform: translateX(-100vw) scale(0);
   }
 </style>

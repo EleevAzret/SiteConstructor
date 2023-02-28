@@ -50,16 +50,16 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import EditInput from './EditInput.vue';
 import AddButton from './AddButton.vue';
-import { mapActions } from 'vuex';
 
 export default {
   name: 'TitleItem',
   props: {
     titleContent: {
       type: Object,
-      default: {},
+      default: () => ({}),
     },
     isDevelop: {
       type: Boolean,
@@ -77,14 +77,14 @@ export default {
     ...mapActions('contentStore', ['changeTitleContent', 'deleteTitleContent', 'addTitleContent', 'deleteComponent']),
     changeModes(value, type) {
       if (!this.isDevelop) return;
-      if (typeof value === 'string') this.changeTitleContent([ this.titleContent.id, type, value ]);
+      if (typeof value === 'string') this.changeTitleContent([this.titleContent.id, type, value]);
       this.isChange = !this.isChange;
     },
     addContent(type) {
-      this.addTitleContent([ this.titleContent.id, type ]);
+      this.addTitleContent([this.titleContent.id, type]);
     },
     deleteContent(type) {
-      this.deleteTitleContent([ this.titleContent.id, type ]);
+      this.deleteTitleContent([this.titleContent.id, type]);
     },
     deleteItem() {
       this.deleteComponent(this.titleContent.id);

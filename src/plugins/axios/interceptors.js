@@ -1,9 +1,12 @@
 function setParams(config) {
-  const params = config.params || {};
-  config.params = Object.assign(params, {
+  const newConfig = config;
+  const params = newConfig.params || {};
+
+  newConfig.params = Object.assign(params, {
     api_key: process.env.VUE_APP_API_KEY,
   });
-  return config;
+
+  return newConfig;
 }
 
 function returnData(res) {

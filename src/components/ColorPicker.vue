@@ -30,31 +30,31 @@ export default {
   },
   data: () => ({
     colors: {
-      'primary': {
+      primary: {
         name: 'Dark Blue',
         icon: 'blank',
       },
-      'success': {
+      success: {
         name: 'Green',
         icon: 'blank',
       },
-      'warning': {
+      warning: {
         name: 'Yellow',
         icon: 'blank',
       },
-      'danger': {
+      danger: {
         name: 'Red',
         icon: 'blank',
       },
-      'info': {
+      info: {
         name: 'Light Blue',
         icon: 'blank',
       },
-      'light': {
+      light: {
         name: 'Light',
         icon: 'check',
       },
-      'dark': {
+      dark: {
         name: 'Dark',
         icon: 'blank',
       },
@@ -66,20 +66,22 @@ export default {
   },
   methods: {
     selectColor(e) {
-      let color = e.currentTarget.dataset.type;
+      const color = e.currentTarget.dataset.type;
       this.refreshIcons();
       this.colors[color].icon = 'check';
       this.$emit('changeColor', color);
     },
     refreshIcons() {
-      for (let color in this.colors) {
-        this.colors[color].icon = 'blank';
-      };
+      Object.keys(this.colors)
+        .forEach((color) => {
+          this.colors[color].icon = 'blank';
+        });
     },
     setCheck() {
-      for (let color in this.colors) {
-        if (color === this.currentColor) this.colors[color].icon = 'check';
-      };
+      Object.keys(this.colors)
+        .forEach((color) => {
+          if (color === this.currentColor) this.colors[color].icon = 'check';
+        });
     },
   },
 };

@@ -17,10 +17,11 @@ module.exports = {
   rules: {
     'no-console': 'off',
     'no-debugger': 'off',
+    'vuejs-accessibility/form-control-has-label': 'off',
+    eqeqeq: 'warn',
+    'no-shadow': 'off',
+    'vuejs-accessibility/click-events-have-key-events': 'off',
+    'array-callback-return': 'warn',
+    'consistent-return': 'warn',
   },
-
-  extends: [
-    'plugin:vue/essential',
-    '@vue/airbnb',
-  ],
 };
