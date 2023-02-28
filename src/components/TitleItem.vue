@@ -1,7 +1,11 @@
 <template>
   <div class="title-item">
     <div class="settings" v-if="isDevelop">
-      <b-button @click="deleteItem" variant="danger" size="sm" class="mb-2">
+      <b-button
+        @click="deleteItem"
+        variant="outline-danger"
+        size="sm"
+        class="mb-2">
         <b-icon icon="x-lg" aria-hidden="true" />
       </b-button>
     </div>

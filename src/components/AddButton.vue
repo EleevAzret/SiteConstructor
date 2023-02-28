@@ -1,6 +1,6 @@
 <template>
   <b-button
-    variant="outline-success"
+    :variant="fillType"
     class="mb-2 add-button"
     :data-type="itemType"
     @click="addComponent">
@@ -21,6 +21,15 @@ export default {
       type: String,
       default: '',
     },
+    isFill: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    fillType() {
+      return this.isFill ? 'success' : 'outline-success';
+    },
   },
   methods: {
     addComponent(e) {
@@ -35,6 +44,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.add-button {
+  border: 1px solid white;
+}
 .col > .add-button {
   width: 50%;
   min-height: 5rem;

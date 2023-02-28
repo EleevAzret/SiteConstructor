@@ -1,6 +1,7 @@
 import Vue from "vue";
 import axios from "@/plugins/axios";
 import topMovies from "../mocks/topMovies";
+import searchMovies from "../mocks/searchMovies";
 
 let components = window.localStorage.getItem('components');
 
@@ -20,6 +21,21 @@ function serializeMovies(movies) {
 
   return result;
 };
+
+async function search(keyword) {
+  try {
+    const res = await axios.get(`${searchMovies}`, {
+      params: {
+        query: keyword,
+      },
+    });
+    console.log(res);
+  } catch (err) {
+    console.log(err);
+  };
+};
+
+search('Gatsby');
 
 const contentStore = {
   namespaced: true,
@@ -160,6 +176,9 @@ const contentStore = {
     SORT_COMPONENTS(state, keys) {
       Vue.set(state, 'components', keys);
     },
+    SEARCHING_MOVIES({ components }, [movies, id]) {
+      Vue.set(components, id, movies);
+    },
   },
   actions: {
     changeTitleContent({ commit }, [id, type, content]) {
@@ -259,6 +278,24 @@ const contentStore = {
       } catch (err) {
         console.log(err);
       }
+    },
+    async searchMovies({ commit }, [keyword, id]) {
+      try {
+        const response = await axios.get(`${searchMovies}`, {
+          params: {
+            query: keyword,
+          },
+        });
+        console.log(res);
+
+        const movies = serializeMovies(response);
+
+        commit('SEARCHING_MOVIES', [movies, id]);
+        commit('SAVE_CONTENT');
+
+      } catch (err) {
+        console.log(err);
+      };
     },
   },
 };

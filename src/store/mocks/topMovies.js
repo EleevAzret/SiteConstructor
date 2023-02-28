@@ -1,5 +1,5 @@
 /**
- * @returns String to get the request with top films, mixed Kinopoisk with imdb
+ * @returns String to get the request with top films
  */
 
 export default "/3/movie/popular";

@@ -2,7 +2,12 @@
   <div class="card-item">
     <div class="card-item__settings" v-if="isDevelop">
       <color-picker class="color-change" :currentColor="item.color" @changeColor="changeColor" />
-      <b-button @click="onDeleteCard" variant="danger" size="sm" class="mb-2">
+      <b-button
+        @click="onDeleteCard"
+        variant="danger"
+        size="sm"
+        class="mb-2"
+      >
         <b-icon icon="x-lg" aria-hidden="true" />
       </b-button>
     </div>
@@ -23,7 +28,7 @@
             @changeVisible="change" />
         </template>
         <template v-if="!item.title && isDevelop">
-          <add-button itemType="title" @addComponent="addComponent" />
+          <add-button :isFill="true" itemType="title" @addComponent="addComponent" />
         </template>
       </template>
       <template v-if="item.content">
@@ -36,7 +41,7 @@
         @changeVisible="change" />
       </template>
       <template v-if="!item.content && isDevelop">
-        <add-button itemType="content" @addComponent="addComponent" />
+        <add-button :isFill="true" itemType="content" @addComponent="addComponent" />
       </template>
     </b-card>
   </div>

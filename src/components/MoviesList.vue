@@ -4,7 +4,7 @@
       <b-button
         v-if="isDevelop"
         @click="deleteItem"
-        variant="danger"
+        variant="outline-danger"
         size="sm"
         class="mb-2"
       >

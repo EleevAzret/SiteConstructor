@@ -83,6 +83,7 @@ export default {
     text-align: center;
     display: inline-block;
     resize: none;
+    color: inherit;
   }
 
   & > textarea.title {
