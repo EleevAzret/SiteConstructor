@@ -77,7 +77,7 @@ export default {
     },
     searchIsNotEmpty() {
       if (this.moviesList.searchMovies) {
-        return Boolean(Object.keys(this.moviesList.searchMovies.movies).length)
+        return Boolean(Object.keys(this.moviesList.searchMovies.movies).length);
       }
       return true;
     },

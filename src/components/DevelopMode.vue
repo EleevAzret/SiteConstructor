@@ -107,13 +107,10 @@ export default {
   }
 
   .fade-enter-active, .fade-leave-active, .fade-move {
-    transition: all .5s ease-out;
+    transition: opacity .2s ease;
   }
 
   .fade-enter, .fade-leave-to {
-    transform: scale(0);
-    z-index: -10;
     opacity: 0;
-    height: 0;
   }
 </style>
