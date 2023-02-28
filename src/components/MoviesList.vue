@@ -27,7 +27,13 @@
         </b-button>
       </b-form>
     </div>
-    <b-row cols="5">
+    <b-row 
+      align-h="center"
+      cols="2"
+      cols-sm="2"
+      cols-md="3"
+      cols-lg="5"
+    >
         <movie-item 
           v-for="movie in correctMovies"
           :key="movie.id"

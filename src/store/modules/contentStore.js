@@ -22,21 +22,6 @@ function serializeMovies(movies) {
   return result;
 };
 
-async function search(keyword) {
-  try {
-    const res = await axios.get(`${searchMovies}`, {
-      params: {
-        query: keyword,
-      },
-    });
-    console.log(res);
-  } catch (err) {
-    console.log(err);
-  };
-};
-
-search('Gatsby');
-
 const contentStore = {
   namespaced: true,
   state: {
@@ -80,19 +65,6 @@ const contentStore = {
     ],
   },
   getters: {
-    components: ({ components }) => components,
-    titleComponents: ({ components }) => {
-      return components.filter(value => value.type == 'titleComponent').reduce((acc, value) => {
-        acc[value.id] = value;
-        return acc;
-      }, {});;
-    },
-    cardsComponents: ({ components }) => {
-      return components.filter(value => value.type == 'cardComponent').reduce((acc, value) => {
-        acc[value.id] = value;
-        return acc;
-      }, {});
-    },
     allComponents: ({ components }) => components,
   },
   mutations: {

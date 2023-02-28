@@ -51,11 +51,7 @@ export default {
     MoviesList,
   },
   computed: {
-    ...mapGetters('contentStore', ['titleComponents', 'cardsComponents', 'allComponents']),
-    isNotEmpty() {
-      console.log(this.titleComponents);
-      return Boolean(this.titleComponents.length);
-    },
+    ...mapGetters('contentStore', ['allComponents']),
     componentsList: {
       get() {
         return this.allComponents;

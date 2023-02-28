@@ -11,7 +11,10 @@
         <b-icon icon="x-lg" aria-hidden="true" />
       </b-button>
     </div>
-    <b-row cols="3">
+    <b-row cols="1"
+      cols-sm="2"
+      cols-md="3"
+    >
       <template>
         <b-col class="mb-4" v-for="card in cardComponent.cards" :key="card.id">
           <card-item :isDevelop="isDevelop" :sectionId="cardComponent.id" :item="card" />

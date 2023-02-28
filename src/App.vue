@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <b-navbar type="dark" variant="dark" class="mb-5">
-      <b-container fluid="sm">
+      <b-container fluid="lg">
         <b-navbar-brand href="#">Construct your Site</b-navbar-brand>
         <b-form-radio-group
           id="btn-radios-2"
@@ -14,7 +14,7 @@
         ></b-form-radio-group>
       </b-container>
     </b-navbar>
-    <b-container fluid="sm">
+    <b-container fluid="lg">
       <develop-mode v-if="isDevMode" />
       <template v-else>
         <div class="component mb-5" v-for="component in componentsList" :key="component.id">

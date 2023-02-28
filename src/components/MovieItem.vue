@@ -1,5 +1,5 @@
 <template>
-  <b-col>
+  <b-col class="mb-3 d-flex justify-content-center">
     <div class="movie-item">
       <img
         :src="movie.poster_path"
@@ -41,11 +41,47 @@ export default {
     transition: all .2s ease-in;
     overflow: hidden;
     height: 22rem;
+    width: 100%;
     box-shadow: 0 .4rem .4rem rgba(#000, .25);
 
     @media (max-width: 575.98px) {
       height: 20rem;
-      width: 10rem;
+    }
+
+    @media (max-width: 1400px) {
+      height: 19rem;
+    }
+
+    @media (max-width: 1200px) {
+      height: 15rem;
+    }
+
+    @media (max-width: 992px) {
+      height: 25rem;
+    }
+
+    @media (max-width: 830px) {
+      height: 20rem;
+    }
+
+    @media (max-width: 992px) {
+      height: 30rem;
+    }
+
+    @media (max-width: 650px) {
+      height: 25rem;
+    }
+
+    @media (max-width: 575px) {
+      height: 20rem;
+    }
+
+    @media (max-width: 470px) {
+      height: 18rem;
+    }
+
+    @media (max-width: 400px) {
+      height: 15rem;
     }
 
     &:hover {
