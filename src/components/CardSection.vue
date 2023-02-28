@@ -60,5 +60,7 @@ export default {
 <style lang="scss">
   .settings {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
 </style>

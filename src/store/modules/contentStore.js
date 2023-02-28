@@ -10,7 +10,7 @@ function serializeMovies(movies) {
   const _id = Math.random() * 10;
 
   const list = movies.reduce((acc, movie) => {
-    movie.poster_path = `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+    movie.poster_path = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : `https://gdr.one/simg/300x300/fff/000?text=${movie.title}`;
     acc[movie.id] = movie;
     return acc;
   }, {});
@@ -177,7 +177,11 @@ const contentStore = {
       Vue.set(state, 'components', keys);
     },
     SEARCHING_MOVIES({ components }, [movies, id]) {
-      Vue.set(components, id, movies);
+      components.forEach(component => {
+        if (component.id == id) {
+          Vue.set(component, 'searchMovies', movies);
+        };
+      });
     },
   },
   actions: {
@@ -286,13 +290,13 @@ const contentStore = {
             query: keyword,
           },
         });
-        console.log(res);
+        console.log(response);
 
-        const movies = serializeMovies(response);
+        const movies = response.results.length > 5 ? response.results.splice(0, 5) : response.results;
+        const serialize = serializeMovies(movies);
 
-        commit('SEARCHING_MOVIES', [movies, id]);
+        commit('SEARCHING_MOVIES', [serialize, id]);
         commit('SAVE_CONTENT');
-
       } catch (err) {
         console.log(err);
       };

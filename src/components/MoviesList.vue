@@ -11,9 +11,17 @@
         <b-icon icon="x-lg" aria-hidden="true" />
       </b-button>
     </div>
+    <div class="search-wrap mb-3">
+      <b-form class="search-field" @submit.stop.prevent="onSearchSubmit">
+        <b-form-input v-model="keywords" aria-label="Input" class="mr-1"></b-form-input>
+        <b-button type="submit" variant="outline-info">
+          <b-icon icon="search" />
+        </b-button>
+      </b-form>
+    </div>
     <b-row cols="5">
         <movie-item 
-          v-for="movie in moviesList.movies"
+          v-for="movie in correctMovies"
           :key="movie.id"
           :movie="movie"
         />
@@ -40,11 +48,33 @@ export default {
       default: true,
     },
   },
+  data: () => ({
+    keywords: '',
+  }),
+  computed: {
+    correctMovies() {
+      return this.moviesList.searchMovies ? this.moviesList.searchMovies.movies : this.moviesList.movies;
+    },
+  },
   methods: {
-    ...mapActions('contentStore', ['deleteComponent']),
+    ...mapActions('contentStore', ['deleteComponent', 'searchMovies']),
     deleteItem() {
       this.deleteComponent(this.moviesList.id);
+    },
+    onSearchSubmit(e) {
+      if (this.keywords) this.searchMovies([this.keywords, this.moviesList.id]);
     },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.search-wrap {
+  display: flex;
+  justify-content: flex-end;
+}
+.search-field {
+  display: flex;
+  gap: .2rem;
+}
+</style>
