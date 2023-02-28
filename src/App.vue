@@ -2,7 +2,9 @@
   <div id="app">
     <b-navbar type="dark" variant="dark" class="mb-5">
       <b-container fluid="lg">
-        <b-navbar-brand href="#">Construct your Site</b-navbar-brand>
+        <b-navbar-brand href="#">
+          <img src="./img/logo.png" alt="logo" class="logo">
+        </b-navbar-brand>
         <b-form-radio-group
           id="btn-radios-2"
           v-model="isDevMode"
@@ -83,5 +85,10 @@ export default {
 
 #btn-radios-2_BV_option_0, #btn-radios-2_BV_option_1 {
   display: none;
+}
+
+.logo {
+  width: 7rem;
+  height: auto;
 }
 </style>
